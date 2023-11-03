@@ -1,7 +1,11 @@
 import React from "react";
 
 const Likes = () => {
-	return <div>Likes</div>;
+	return (
+		<div>
+			<div>Likes</div>
+		</div>
+	);
 };
 
 export default Likes;

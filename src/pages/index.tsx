@@ -1,10 +1,8 @@
-import Layout from "@/Components/Layout";
-import Navbar from "@/Components/Navbar";
 import Link from "next/link";
 
 const Home = () => {
 	return (
-		<Layout>
+		<>
 			<h1>Map Index Page</h1>
 			<ul>
 				<li>
@@ -29,7 +27,7 @@ const Home = () => {
 					<Link href='/users/likes'>찜한 맛집</Link>
 				</li>
 			</ul>
-		</Layout>
+		</>
 	);
 };
 

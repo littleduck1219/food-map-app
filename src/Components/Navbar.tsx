@@ -1,11 +1,23 @@
 import { useState } from "react";
 import Link from "next/link";
-
 import { BiMenu } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
+
+	const SplitText = ({ text }: any) => {
+		return (
+			<span aria-label={text} role='heading' className='split-text'>
+				{text.split("").map((char: string, index: number) => (
+					<span key={index} className='char' data-char={char} style={{ "--char-index": index }}>
+						{char}
+					</span>
+				))}
+			</span>
+		);
+	};
+
 	return (
 		<>
 			<div className='navbar'>
@@ -13,17 +25,25 @@ export default function Navbar() {
 					{"Duck's Food Map"}
 				</Link>
 				<div className='navbar__list'>
-					<Link href='/stores' className='navbar__list--item'>
-						맛집 목록
+					<Link href='/stores'>
+						<span className='navbar__list--item'>
+							<SplitText text='맛집 목록' />
+						</span>
 					</Link>
-					<Link href='/stores/new' className='navbar__list--item'>
-						맛집 등록
+					<Link href='/stores'>
+						<span className='navbar__list--item'>
+							<SplitText text='맛집 등록' />
+						</span>
 					</Link>
-					<Link href='/users/likes' className='navbar__list--item'>
-						찜한 가게
+					<Link href='/stores'>
+						<span className='navbar__list--item'>
+							<SplitText text='찜한 가게' />
+						</span>
 					</Link>
-					<Link href='/users/login' className='navbar__list--item'>
-						로그인
+					<Link href='/stores'>
+						<span className='navbar__list--item'>
+							<SplitText text='로그인' />
+						</span>
 					</Link>
 				</div>
 				{/* mobile button */}

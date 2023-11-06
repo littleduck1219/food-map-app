@@ -24,12 +24,46 @@
 	@apply hidden cursor-pointer;
 }
 
-.navbar__list--item {
-	@apply cursor-pointer;
+.char {
+	display: inline-block;
+	vertical-align: top;
 }
 
-.navbar__list--item:hover {
-	@apply text-gray-600;
+.split-text {
+	display: inline-block;
+}
+
+.navbar__list--item .char {
+	display: inline-block;
+	position: relative;
+	color: transparent;
+	overflow: hidden;
+}
+
+.navbar__list--item .char::before,
+.navbar__list--item .char::after {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 1;
+	color: black;
+	content: attr(data-char);
+	transition: transform 0.35s;
+	transition-delay: calc(30ms * var(--char-index));
+}
+
+.navbar__list--item .char::before {
+	@apply text-blue-800 font-semibold;
+	transform: translateY(100%);
+}
+
+.navbar__list--item:hover .char::before {
+	transform: translateY(0%);
+	opacity: 1;
+}
+
+.navbar__list--item:hover .char::after {
+	transform: translateY(-100%);
 }
 
 @media only screen and (max-width: 600px) {

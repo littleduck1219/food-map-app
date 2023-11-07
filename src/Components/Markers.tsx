@@ -1,10 +1,10 @@
 import { MarkerProps } from "@/types/propsTypes";
 import React, { useCallback, useEffect } from "react";
 
-const Markers = ({ map, storeDatas, setCurrentStore }: MarkerProps) => {
+const Markers = ({ map, stores, setCurrentStore }: MarkerProps) => {
 	const loadKakaoMarkers = useCallback(() => {
 		if (map) {
-			storeDatas?.map((store) => {
+			stores?.map((store) => {
 				var imageSrc = store?.bizcnd_code_nm
 						? `/images/marker/${store?.bizcnd_code_nm}.png`
 						: `/images/marker/default.png`,
@@ -49,7 +49,7 @@ const Markers = ({ map, storeDatas, setCurrentStore }: MarkerProps) => {
 				});
 			});
 		}
-	}, [map, setCurrentStore, storeDatas]);
+	}, [map, setCurrentStore, stores]);
 
 	useEffect(() => {
 		loadKakaoMarkers();

@@ -10,7 +10,11 @@ export default function Navbar() {
 		return (
 			<span aria-label={text} role='heading' className='split-text'>
 				{text.split("").map((char: string, index: number) => (
-					<span key={index} className='char' data-char={char} style={{ "--char-index": index }}>
+					<span
+						key={index}
+						className='char'
+						data-char={char}
+						style={{ "--char-index": index } as React.CSSProperties}>
 						{char}
 					</span>
 				))}
@@ -22,7 +26,7 @@ export default function Navbar() {
 		<>
 			<div className='navbar'>
 				<Link className='navbar__logo' href='/'>
-					{"Duck's Food Map"}
+					{"Foodies"}
 				</Link>
 				<div className='navbar__list'>
 					<Link href='/stores'>

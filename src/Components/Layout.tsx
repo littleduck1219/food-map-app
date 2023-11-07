@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import Navbar from "./Navbar";
-import config from "../../tailwind.config";
+import { LayoutProps } from "@/types/propsTypes";
 
 const Layout = ({ children }: LayoutProps) => {
 	return (

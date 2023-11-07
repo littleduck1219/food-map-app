@@ -1,12 +1,12 @@
 import { MarkerProps } from "@/types/propsTypes";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 
-const Markers = ({ map, storeDatas }: MarkerProps) => {
-	const loadKakaoMarkers = () => {
+const Markers = ({ map, storeDatas, setCurrentStore }: MarkerProps) => {
+	const loadKakaoMarkers = useCallback(() => {
 		if (map) {
 			storeDatas?.map((store) => {
 				var imageSrc = store?.bizcnd_code_nm
-						? `/images/marker/${store.bizcnd_code_nm}.png`
+						? `/images/marker/${store?.bizcnd_code_nm}.png`
 						: `/images/marker/default.png`,
 					imageSize = new window.kakao.maps.Size(64, 69),
 					imageOption = { offset: new window.kakao.maps.Point(27, 69) };
@@ -42,13 +42,18 @@ const Markers = ({ map, storeDatas }: MarkerProps) => {
 					// 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
 					customOverlay.setMap(null);
 				});
+
+				// 선택한 가게 저장
+				window.kakao.maps.event.addListener(marker, "click", function () {
+					setCurrentStore(store);
+				});
 			});
 		}
-	};
+	}, [map, setCurrentStore, storeDatas]);
 
 	useEffect(() => {
 		loadKakaoMarkers();
-	}, [map]);
+	}, [loadKakaoMarkers, map]);
 	return <></>;
 };
 

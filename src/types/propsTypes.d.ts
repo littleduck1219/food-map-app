@@ -20,6 +20,13 @@ export interface MapProps {
 export interface MarkerProps {
 	map: any;
 	storeDatas: any[];
+	setCurrentStore: Dispatch<SetStateAction<any>>;
+}
+
+// store box
+export interface StoreBoxProps {
+	store: any;
+	setStore: Dispatch<SetStateAction<any>>;
 }
 
 export = {};

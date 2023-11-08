@@ -37,7 +37,7 @@ const StoreBox = ({ store, setStore }: StoreBoxProps) => {
 						</div>
 						<div className='mt-4 flex gap-2 items-center'>
 							<AiOutlinePhone />
-							{store?.tel_no ? store?.tel_no : <div className='text-red-500'>제공되지 않음</div>}
+							{store?.tel_no ? store?.tel_no : <div className='text-red-500'>제공 번호 없음</div>}
 						</div>
 						<div className='mt-4 flex gap-2 items-center'>
 							<AiOutlineInfoCircle />

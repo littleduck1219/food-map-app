@@ -41,10 +41,10 @@ const StoreListPage = ({ stores }: { stores: StoreType[] }) => {
 
 export default StoreListPage;
 
-export async function getServerSideProps() {
+export const getServerSideProps = async () => {
 	const stores = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`).then((res) => res.json());
 
 	return {
 		props: { stores },
 	};
-}
+};

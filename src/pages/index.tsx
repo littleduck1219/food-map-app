@@ -19,11 +19,11 @@ export default function Home({ stores }: { stores: StoreType[] }) {
 	);
 }
 
-export async function getStaticProps() {
+export const getStaticProps = async () => {
 	const stores = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`).then((res) => res.json());
 
 	return {
 		props: { stores },
 		revalidate: 60 * 60,
 	};
-}
+};

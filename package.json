@@ -13,6 +13,9 @@
 	},
 	"dependencies": {
 		"@prisma/client": "^5.5.2",
+		"@tanstack/react-query": "^5.8.1",
+		"@tanstack/react-query-devtools": "^5.8.1",
+		"axios": "^1.6.1",
 		"next": "14.0.0",
 		"react": "^18",
 		"react-dom": "^18",
@@ -20,6 +23,7 @@
 		"splitting": "^1.0.6"
 	},
 	"devDependencies": {
+		"@tanstack/eslint-plugin-query": "^5.6.0",
 		"@types/node": "^20",
 		"@types/react": "^18",
 		"@types/react-dom": "^18",

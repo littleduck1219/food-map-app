@@ -1,7 +1,29 @@
 import { StoreType } from "@/types/dataTypes";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import Image from "next/image";
 
-const StoreListPage = ({ stores }: { stores: StoreType[] }) => {
+const StoreListPage = () => {
+	const {
+		data: stores,
+		isLoading,
+		isError,
+	} = useQuery({
+		queryKey: ["stores"],
+		queryFn: async () => {
+			const { data } = await axios("/api/stores");
+			return data as StoreType[];
+		},
+	});
+
+	if (isLoading) {
+		return <span>Loading...</span>;
+	}
+
+	if (isError) {
+		return <span>다시 시도해주세요</span>;
+	}
+
 	return (
 		<div className='px-4 md:max-w-4xl mx-auto py-8'>
 			<ul role='list' className='divide-y divide-gray-100'>
@@ -41,10 +63,10 @@ const StoreListPage = ({ stores }: { stores: StoreType[] }) => {
 
 export default StoreListPage;
 
-export async function getServerSideProps() {
-	const stores = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`).then((res) => res.json());
+// export async function getServerSideProps() {
+// 	const stores = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`);
 
-	return {
-		props: { stores },
-	};
-}
+// 	return {
+// 		props: { stores: stores.data },
+// 	};
+// }

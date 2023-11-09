@@ -14,17 +14,17 @@ const StoreBox = ({ store, setStore }: StoreBoxProps) => {
 							<div className='flex gap-4 items-center'>
 								<Image
 									src={
-										store?.bizcnd_code_nm
-											? `/images/storebox/${store?.bizcnd_code_nm}.png`
-											: `/images/storebox/default.png`
+										store?.category
+											? `/images/storebox/${store?.category}.png`
+											: "/images/storebox/default.png"
 									}
 									alt='selected marker'
 									width={40}
 									height={40}
 								/>
 								<div>
-									<div className='font-semibold'>{store?.upso_nm}</div>
-									<div className='text-sm'>{store?.cob_code_nm}</div>
+									<div className='font-semibold'>{store?.name}</div>
+									<div className='text-sm'>{store?.storeType}</div>
 								</div>
 							</div>
 							<button type='button' onClick={() => setStore(null)}>
@@ -33,19 +33,19 @@ const StoreBox = ({ store, setStore }: StoreBoxProps) => {
 						</div>
 						<div className='mt-4 flex gap-2 items-center'>
 							<HiOutlineMapPin />
-							{store?.rdn_code_nm}
+							{store?.address}
 						</div>
 						<div className='mt-4 flex gap-2 items-center'>
 							<AiOutlinePhone />
-							{store?.tel_no ? store?.tel_no : <div className='text-red-500'>제공 번호 없음</div>}
+							{store?.phone ? store?.phone : <div className='text-red-500'>제공 번호 없음</div>}
 						</div>
 						<div className='mt-4 flex gap-2 items-center'>
 							<AiOutlineInfoCircle />
-							{store?.crtfc_gbn_nm}
+							{store?.foodCertifyName}
 						</div>
 						<div className='mt-4 flex gap-2 items-center'>
 							<AiOutlineCheck />
-							{store?.bizcnd_code_nm}
+							{store?.category}
 						</div>
 					</div>
 					<button

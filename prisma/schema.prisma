@@ -18,12 +18,12 @@ model User {
 
 model Store {
   id Int @id @default(autoincrement())
-phone String?
-address String?
-lat String?
-lng String?
-name String?
-categoty String?
-storeType String?
-foodCertifyName String?
+  phone String?
+  address String?
+  lat String?
+  lng String?
+  name String?
+  category String?
+  storeType String?
+  foodCertifyName String?
 }

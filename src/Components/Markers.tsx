@@ -5,14 +5,12 @@ const Markers = ({ map, stores, setCurrentStore }: MarkerProps) => {
 	const loadKakaoMarkers = useCallback(() => {
 		if (map) {
 			stores?.map((store) => {
-				var imageSrc = store?.bizcnd_code_nm
-						? `/images/marker/${store?.bizcnd_code_nm}.png`
-						: `/images/marker/default.png`,
+				var imageSrc = store?.category ? `/images/marker/${store?.category}.png` : `/images/marker/default.png`,
 					imageSize = new window.kakao.maps.Size(64, 69),
 					imageOption = { offset: new window.kakao.maps.Point(27, 69) };
 
 				var markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-				var markerPosition = new window.kakao.maps.LatLng(store?.y_dnts, store?.x_cnts); // 마커가 표시될 위치입니다
+				var markerPosition = new window.kakao.maps.LatLng(store?.lat, store?.lng); // 마커가 표시될 위치입니다
 
 				var marker = new window.kakao.maps.Marker({
 					position: markerPosition,
@@ -22,7 +20,7 @@ const Markers = ({ map, stores, setCurrentStore }: MarkerProps) => {
 				marker.setMap(map);
 
 				// marker overlay info window
-				var content = `<div class="infowindow">${store?.upso_nm}</div>`;
+				var content = `<div class="infowindow">${store?.name}</div>`;
 
 				var customOverlay = new window.kakao.maps.CustomOverlay({
 					position: markerPosition,

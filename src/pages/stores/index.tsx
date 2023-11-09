@@ -10,8 +10,8 @@ const StoreListPage = ({ stores }: { stores: StoreType[] }) => {
 						<div className='flex gap-x-4'>
 							<Image
 								src={
-									store?.bizcnd_code_nm
-										? `/images/storebox/${store?.bizcnd_code_nm}.png`
+									store?.category
+										? `/images/storebox/${store?.category}.png`
 										: "/images/storebox/default.png"
 								}
 								width={48}
@@ -20,16 +20,16 @@ const StoreListPage = ({ stores }: { stores: StoreType[] }) => {
 							/>
 
 							<div>
-								<div className='text-sm font-semibold leading-6 text-gray-900'>{store?.upso_nm}</div>
+								<div className='text-sm font-semibold leading-6 text-gray-900'>{store?.name}</div>
 								<div className='mt-1 text-sx truncate font-semibold leading-5 text-gray-500'>
-									{store?.upso_nm}
+									{store?.name}
 								</div>
 							</div>
 						</div>
 						<div className='hidden sm:flex sm:flex-col sm:items-end'>
-							<div className='text-sm font-semibold leading-6 text-gray-900'>{store?.rdn_code_nm}</div>
+							<div className='text-sm font-semibold leading-6 text-gray-900'>{store?.address}</div>
 							<div className='mt-1 text-xs truncate font-semibold leading-5 text-gray-500'>
-								{store?.tel_no || "제공번호 없음"} | {store?.crtfc_gbn_nm} | {store?.bizcnd_code_nm}
+								{store?.phone || "제공번호 없음"} | {store?.foodCertifyName} | {store?.category}
 							</div>
 						</div>
 					</li>
@@ -41,10 +41,10 @@ const StoreListPage = ({ stores }: { stores: StoreType[] }) => {
 
 export default StoreListPage;
 
-export const getServerSideProps = async () => {
+export async function getServerSideProps() {
 	const stores = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`).then((res) => res.json());
 
 	return {
 		props: { stores },
 	};
-};
+}

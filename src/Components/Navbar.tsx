@@ -2,25 +2,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { BiMenu } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
+import ActiveNavLink from "./ActiveNavLink";
 
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
-
-	const SplitText = ({ text }: any) => {
-		return (
-			<span aria-label={text} role='heading' className='split-text'>
-				{text.split("").map((char: string, index: number) => (
-					<span
-						key={index}
-						className='char'
-						data-char={char}
-						style={{ "--char-index": index } as React.CSSProperties}>
-						{char}
-					</span>
-				))}
-			</span>
-		);
-	};
 
 	return (
 		<>
@@ -29,26 +14,10 @@ export default function Navbar() {
 					{"Foodies"}
 				</Link>
 				<div className='navbar__list'>
-					<Link href='/stores'>
-						<span className='navbar__list--item'>
-							<SplitText text='맛집 목록' />
-						</span>
-					</Link>
-					<Link href='/stores'>
-						<span className='navbar__list--item'>
-							<SplitText text='맛집 등록' />
-						</span>
-					</Link>
-					<Link href='/stores'>
-						<span className='navbar__list--item'>
-							<SplitText text='찜한 가게' />
-						</span>
-					</Link>
-					<Link href='/stores'>
-						<span className='navbar__list--item'>
-							<SplitText text='로그인' />
-						</span>
-					</Link>
+					<ActiveNavLink href='/stores'>맛집 목록</ActiveNavLink>
+					<ActiveNavLink href='#'>맛집 등록</ActiveNavLink>
+					<ActiveNavLink href='#'>찜한 가게</ActiveNavLink>
+					<ActiveNavLink href='#'>로그인</ActiveNavLink>
 				</div>
 				{/* mobile button */}
 				<div role='presentation' className='navbar__button' onClick={() => setIsOpen((val) => !val)}>

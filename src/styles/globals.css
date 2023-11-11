@@ -66,6 +66,17 @@
 	transform: translateY(-100%);
 }
 
+/* Active NavLink Style */
+.Active__nav .char::before {
+	transition: none;
+}
+
+.Active__nav .char::after {
+	@apply text-blue-800 font-semibold;
+	transform: translateY(0%);
+	transition: none;
+}
+
 @media only screen and (max-width: 600px) {
 	.navbar--mobile {
 		@apply fixed w-full text-white h-screen top-[52px] bg-blue-800;

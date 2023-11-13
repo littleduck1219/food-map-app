@@ -1,26 +1,53 @@
 import Loading from "@/components/Loading";
 import Pagenation from "@/components/Pagenation";
 import { StoreApiResponse, StoreType } from "@/types/dataTypes";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 const StoreListPage = () => {
 	const router = useRouter();
 	const { page = "1" }: any = router.query;
 
+	// const {
+	// 	data: stores,
+	// 	isLoading,
+	// 	isError,
+	// } = useQuery({
+	// 	queryKey: ["stores", page],
+	// 	queryFn: async () => {
+	// 		const { data } = await axios(`/api/stores?page=${page}`);
+	// 		return data as StoreApiResponse;
+	// 	},
+	// });
+
+	const fetchStores = async ({ pageParam = 1 }) => {
+		const { data } = await axios("/api/stores?page=" + pageParam, {
+			params: {
+				limit: 10,
+				page: pageParam,
+			},
+		});
+
+		return data;
+	};
+
 	const {
 		data: stores,
-		isLoading,
+		isFetching,
+		fetchNextPage,
+		isFetchingNextPage,
+		hasNextPage,
 		isError,
-	} = useQuery({
-		queryKey: ["stores", page],
-		queryFn: async () => {
-			const { data } = await axios(`/api/stores?page=${page}`);
-			return data as StoreApiResponse;
+		isLoading,
+	} = useInfiniteQuery({
+		queryKey: ["stores"],
+		queryFn: fetchStores,
+		getNextPageParam: (lastPage) => {
+			return lastPage.data?.length > 0 ? lastPage.page + 1 : undefined;
 		},
+		initialPageParam: 1,
 	});
 
 	console.log(stores);
@@ -39,7 +66,7 @@ const StoreListPage = () => {
 				{isLoading ? (
 					<Loading />
 				) : (
-					stores?.data?.map((store, index) => (
+					stores?.pages?.map((page, index) => (
 						<li className='flex justify-between gap-x-6 py-5' key={index}>
 							<div className='flex gap-x-4'>
 								<Image
@@ -70,6 +97,7 @@ const StoreListPage = () => {
 				)}
 			</ul>
 			{stores?.totalPage && <Pagenation total={stores?.totalPage} page={page} />}
+			<button type='button' onClick={() => fetchNextPage}></button>
 		</div>
 	);
 };

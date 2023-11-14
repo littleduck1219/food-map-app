@@ -15,7 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<StoreApiRespons
 		const skipPage = parseInt(page) - 1;
 		const stores = await prisma.store.findMany({
 			orderBy: { id: "asc" }, // id 기준 정렬
-			take: 10, // 갯수 제한
+			take: 20, // 갯수 제한
 			skip: skipPage * 10,
 		});
 

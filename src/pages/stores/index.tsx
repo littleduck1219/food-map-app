@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import Loading from "@/components/Loading";
 import { StoreApiResponse, StoreType } from "@/types/dataTypes";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
@@ -14,8 +14,6 @@ const StoreListPage = () => {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const pageRef = useIntersectionObserver(ref, {});
 	const isPageEnd = !!pageRef?.isIntersecting;
-
-	console.log(pageRef);
 
 	const fetchStores = async ({ pageParam = 1 }) => {
 		const { data } = await axios("/api/stores?page=" + pageParam, {
@@ -45,11 +43,22 @@ const StoreListPage = () => {
 		initialPageParam: 1,
 	});
 
-	useEffect(() => {
-		if (isPageEnd) {
-			fetchNextPage();
+	const fetchNext = useCallback(async () => {
+		const res = await fetchNextPage();
+		if (res.isError) {
+			console.log(res.error);
 		}
-	}, [fetchNextPage, isPageEnd]);
+	}, [fetchNextPage]);
+
+	useEffect(() => {
+		let timerId: NodeJS.Timeout | undefined;
+		if (isPageEnd && hasNextPage) {
+			timerId = setTimeout(() => {
+				fetchNext();
+			}, 500);
+			return () => clearTimeout(timerId);
+		}
+	}, [fetchNext, isPageEnd, hasNextPage]);
 
 	if (isError) {
 		return (

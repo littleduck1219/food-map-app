@@ -5,7 +5,7 @@ import StoreBox from "@/components/StoreBox";
 import { StoreType } from "@/types/dataTypes";
 import axios from "axios";
 
-export default function Home({ stores }: { stores: StoreType[] }) {
+const Home = ({ stores }: { stores: StoreType[] }) => {
 	const [map, setMap] = useState(null);
 	const [currentStore, setCurrentStore] = useState<StoreType | null>(null);
 
@@ -16,13 +16,14 @@ export default function Home({ stores }: { stores: StoreType[] }) {
 			<StoreBox store={currentStore} setStore={setCurrentStore} />
 		</>
 	);
-}
+};
+
+export default Home;
 
 export async function getStaticProps() {
-	const stores = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`);
-
+	const response = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`);
 	return {
-		props: { stores: stores.data },
+		props: { stores: response.data.data },
 		revalidate: 60 * 60,
 	};
 }

@@ -8,6 +8,7 @@ export interface StoreType {
 	category?: string | null;
 	storeType?: string | null;
 	foodCertifyName?: string | null;
+	data?: any;
 }
 
 export interface StoreApiResponse {

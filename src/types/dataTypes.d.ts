@@ -17,3 +17,20 @@ export interface StoreApiResponse {
 	totalCount?: number;
 	page?: number;
 }
+
+export interface StoreCategories {
+	[key: string]: string;
+	korean: string;
+	japanese: string;
+	china: string;
+	asian: string;
+	bakery: string;
+	blowfish: string;
+	cafe: string;
+	india: string;
+	snack: string;
+	bar: string;
+	soup: string;
+	western: string;
+	default: string;
+}

@@ -1,3 +1,4 @@
+import { StoreCategories } from "@/types/dataTypes";
 import { StoreBoxProps } from "@/types/propsTypes";
 import Image from "next/image";
 import React from "react";
@@ -5,6 +6,29 @@ import { AiOutlineClose, AiOutlineInfoCircle, AiOutlineCheck, AiOutlinePhone } f
 import { HiOutlineMapPin } from "react-icons/hi2";
 
 const StoreBox = ({ store, setStore }: StoreBoxProps) => {
+	const categoryNames: StoreCategories = {
+		korean: "한식",
+		japanese: "일식",
+		china: "중식",
+		asian: "아시안",
+		bakery: "베이커리",
+		blowfish: "복어",
+		cafe: "카페",
+		india: "인도/중동",
+		snack: "분식",
+		bar: "호프/바",
+		soup: "탕",
+		western: "양식",
+		default: "일반",
+	};
+
+	const getCategoryName = (categoryKey: string | null | undefined) => {
+		if (!categoryKey) {
+			return categoryNames.default;
+		}
+
+		return categoryNames[categoryKey] || categoryNames.default;
+	};
 	return (
 		<div className='fixed transition ease-in-out delay-150 inset-x-0 mx-auto bottom-20 rounded-lg shadow-lg max-w-sm md:max-w-xl z-10 w-full bg-white'>
 			{store && (
@@ -45,7 +69,7 @@ const StoreBox = ({ store, setStore }: StoreBoxProps) => {
 						</div>
 						<div className='mt-4 flex gap-2 items-center'>
 							<AiOutlineCheck />
-							{store?.category}
+							{getCategoryName(store?.category)}
 						</div>
 					</div>
 					<button

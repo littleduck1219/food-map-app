@@ -70,7 +70,6 @@ const Markers = ({ map, stores, setCurrentStore }: MarkerProps) => {
 
 				// 클릭 이벤트 등록
 				window.kakao.maps.event.addListener(marker, "click", () => {
-					console.log(store);
 					setCurrentStore(store);
 				});
 			}

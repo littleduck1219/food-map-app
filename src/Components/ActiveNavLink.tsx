@@ -1,7 +1,7 @@
 import { ActiveNavProps } from "@/types/propsTypes";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const ActiveNavLink = ({ href, children }: ActiveNavProps) => {
 	const SplitText = ({ text }: any) => {
@@ -21,8 +21,11 @@ const ActiveNavLink = ({ href, children }: ActiveNavProps) => {
 	};
 
 	const router = useRouter();
-	const isActive = router.pathname === href;
-	console.log(isActive);
+	const [isActive, setIsActive] = useState(false);
+
+	useEffect(() => {
+		setIsActive(router.pathname === href);
+	}, [router.pathname, href]);
 
 	const className = isActive ? "navbar__list--item Active__nav" : "navbar__list--item";
 

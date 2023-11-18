@@ -16,7 +16,7 @@ const Home = () => {
 	};
 
 	const { data: stores, isLoading, error } = useQuery({ queryKey: ["stores"], queryFn: fetchStores });
-	console.log(stores);
+
 	return (
 		<>
 			<Map setMap={setMap} />

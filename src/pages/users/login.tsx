@@ -16,21 +16,21 @@ const LoginPage = () => {
 				<div className='flex flex-col gap-3'>
 					<button
 						type='button'
-						onClick={() => signIn("google")}
+						onClick={() => signIn("google", { callbackUrl: "/" })}
 						className='text-white flex gap-4 bg-[#4285f4] hover:bg-[#4285f4]/90 font-medium rounded-lg w-full px-5 py-4 text-center items-center justify-center'>
 						<AiOutlineGoogle className='w-6 h-6' />
 						Sign in With Google
 					</button>
 					<button
 						type='button'
-						onClick={() => signIn("naver")}
+						onClick={() => signIn("naver", { callbackUrl: "/" })}
 						className='text-white flex gap-4 bg-[#2db400] hover:bg-[#2db400]/90 font-medium rounded-lg w-full px-5 py-4 text-center items-center justify-center'>
 						<SiNaver className='w-6 h-6' />
 						Sign in With Naver
 					</button>
 					<button
 						type='button'
-						onClick={() => signIn("kakao")}
+						onClick={() => signIn("kakao", { callbackUrl: "/" })}
 						className='text-black flex gap-4 bg-[#fef01b] hover:bg-[#fef01b]/90 font-medium rounded-lg w-full px-5 py-4 text-center items-center justify-center'>
 						<RiKakaoTalkFill className='w-6 h-6' />
 						Sign in With Kakao

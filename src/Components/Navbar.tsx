@@ -1,16 +1,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-
 import { BiMenu } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
-import { sign } from "crypto";
 
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const { data, status } = useSession();
-
-	console.log(status);
 
 	return (
 		<>

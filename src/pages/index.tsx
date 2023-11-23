@@ -1,10 +1,10 @@
 import { useState } from "react";
-import Map from "@/components/Map";
-import Markers from "@/components/Markers";
-import StoreBox from "@/components/StoreBox";
+import Map from "@/Components/Map";
+import Markers from "@/Components/Markers";
+import StoreBox from "@/Components/StoreBox";
 import { StoreType } from "@/types/dataTypes";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "react-query";
 
 const Home = () => {
 	const [map, setMap] = useState(null);

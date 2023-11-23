@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useRef } from "react";
-import Loading from "@/components/Loading";
+import Loading from "@/Components/Loading";
 import { StoreApiResponse, StoreType } from "@/types/dataTypes";
-import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
+import { useQuery, useInfiniteQuery } from "react-query";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
-import Loader from "@/components/Loader";
+import Loader from "@/Components/Loader";
 
 const StoreListPage = () => {
 	const router = useRouter();
@@ -34,15 +34,9 @@ const StoreListPage = () => {
 		hasNextPage,
 		isError,
 		isLoading,
-	} = useInfiniteQuery({
-		queryKey: ["stores"],
-		queryFn: fetchStores,
-		getNextPageParam: (lastPage: any) => {
-			return lastPage.data?.length > 0 ? lastPage.page + 1 : undefined;
-		},
-		initialPageParam: 1,
+	} = useInfiniteQuery("stores", fetchStores, {
+		getNextPageParam: (lastPage: any) => (lastPage.data?.length > 0 ? lastPage.page + 1 : undefined),
 	});
-
 	const fetchNext = useCallback(async () => {
 		const res = await fetchNextPage();
 		if (res.isError) {

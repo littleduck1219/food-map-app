@@ -21,7 +21,7 @@ const Markers = ({ map, stores, setCurrentStore }: MarkerProps) => {
 	};
 
 	const loadKakaoMarkers = useCallback(() => {
-		if (!map || !stores) return;
+		if (!map || !stores || typeof window === "undefined" || !Array.isArray(stores)) return;
 
 		const mapCenter = map.getCenter();
 

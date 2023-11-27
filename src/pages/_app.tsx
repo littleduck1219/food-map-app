@@ -1,8 +1,8 @@
 import type { AppProps } from "next/app";
 import "@/styles/globals.css";
 import Layout from "@/Components/Layout";
-import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { useEffect, useState } from "react";
 import { SessionProvider } from "next-auth/react";
 

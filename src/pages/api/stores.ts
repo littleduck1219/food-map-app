@@ -2,7 +2,7 @@ import { StoreApiResponse, StoreType } from "@/types/dataTypes";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<StoreApiResponse | StoreType>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<StoreApiResponse | StoreType | StoreType[]>) => {
 	// next api
 	// const stores = (await import("../../data/seoul_store_data.json"))["DATA"] as StoreType[];
 
@@ -26,10 +26,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<StoreApiRespons
 			totalPage: Math.ceil(count / 10),
 		});
 	} else {
+		const { id }: { id?: string } = req.query;
+
 		const stores = await prisma.store.findMany({
 			orderBy: { id: "asc" },
+			where: {
+				id: id ? parseInt(id) : {},
+			},
 		});
-		return res.status(200).json({ data: stores });
+		return res.status(200).json(id ? stores[0] : stores);
 	}
 };
 

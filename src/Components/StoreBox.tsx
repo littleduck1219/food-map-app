@@ -1,11 +1,13 @@
 import { StoreCategories } from "@/types/dataTypes";
 import { StoreBoxProps } from "@/types/propsTypes";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 import { AiOutlineClose, AiOutlineInfoCircle, AiOutlineCheck, AiOutlinePhone } from "react-icons/ai";
 import { HiOutlineMapPin } from "react-icons/hi2";
 
 const StoreBox = ({ store, setStore }: StoreBoxProps) => {
+	const router = useRouter();
 	const categoryNames: StoreCategories = {
 		korean: "한식",
 		japanese: "일식",
@@ -75,9 +77,7 @@ const StoreBox = ({ store, setStore }: StoreBoxProps) => {
 					<button
 						className='w-full bg-blue-700 hover:bg-blue-500 focus:bg-blue-500 py-2 text-white font-semibold rounded-b-lg'
 						type='button'
-						onClick={() => {
-							window.alert("상세보기 작업중");
-						}}>
+						onClick={() => router.push(`/stores/${store.id}`)}>
 						상세보기
 					</button>
 				</>

@@ -1,9 +1,11 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MarkerProps } from "@/types/propsTypes";
 
+// 지도 중심으로부터의 최대 거리 설정 (1km)
+const MAX_DISTANCE = 500; // 1km
+
 const Markers = ({ map, stores, setCurrentStore }: MarkerProps) => {
-	// 지도 중심으로부터의 최대 거리 설정 (예: 10km)
-	const MAX_DISTANCE = 1000; // 10km
+	const [markers, setMarkers] = useState<any[]>([]);
 
 	// 두 지점 사이의 거리를 계산하는 함수 (Haversine 공식)
 	const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
@@ -21,17 +23,20 @@ const Markers = ({ map, stores, setCurrentStore }: MarkerProps) => {
 	};
 
 	const loadKakaoMarkers = useCallback(() => {
+		// 기존 마커 제거
+		markers.forEach((marker) => marker.setMap(null));
+		setMarkers([]);
+
 		if (!map || !stores || typeof window === "undefined" || !Array.isArray(stores)) return;
 
+		const newMarkers: any[] = [];
 		const mapCenter = map.getCenter();
 
 		stores.forEach((store) => {
-			// lat, lng 값이 null 또는 undefined인 경우 처리
 			if (store.lat == null || store.lng == null) return;
 
 			const storeLat = parseFloat(store.lat);
 			const storeLng = parseFloat(store.lng);
-
 			const distance = calculateDistance(mapCenter.getLat(), mapCenter.getLng(), storeLat, storeLng);
 
 			if (distance <= MAX_DISTANCE) {
@@ -46,12 +51,11 @@ const Markers = ({ map, stores, setCurrentStore }: MarkerProps) => {
 					image: markerImage,
 				});
 
-				// 마커를 지도에 표시
 				marker.setMap(map);
 
 				// 인포윈도우 생성
 				const content = `<div class="infowindow">${store.name}</div>`;
-				const customOverlay = new window.kakao.maps.CustomOverlay({
+				var customOverlay = new window.kakao.maps.CustomOverlay({
 					position: markerPosition,
 					content,
 					xAnchor: 0.6,
@@ -72,9 +76,28 @@ const Markers = ({ map, stores, setCurrentStore }: MarkerProps) => {
 				window.kakao.maps.event.addListener(marker, "click", () => {
 					setCurrentStore(store);
 				});
+
+				newMarkers.push(marker);
 			}
 		});
+
+		setMarkers(newMarkers);
 	}, [map, stores, setCurrentStore]);
+
+	// 지도 이동 시 마커 재로드
+	useEffect(() => {
+		if (!map) return;
+
+		const handleCenterChanged = () => {
+			loadKakaoMarkers();
+		};
+
+		window.kakao.maps.event.addListener(map, "center_changed", handleCenterChanged);
+
+		return () => {
+			window.kakao.maps.event.removeListener(map, "center_changed", handleCenterChanged);
+		};
+	}, [map, loadKakaoMarkers]);
 
 	// 지도가 이동될 때마다 마커를 다시 로드
 	useEffect(() => {

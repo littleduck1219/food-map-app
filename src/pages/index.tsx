@@ -12,10 +12,10 @@ const Home = () => {
 
 	const fetchStores = async () => {
 		const response = await axios(`/api/stores`);
-		return response.data.data;
+		return response.data;
 	};
 
-	const { data: stores, isLoading, error } = useQuery({ queryKey: ["stores"], queryFn: fetchStores });
+	const { data: stores, isLoading, error } = useQuery("stores", fetchStores);
 
 	return (
 		<>

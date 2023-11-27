@@ -21,6 +21,9 @@ export interface ActiveNavProps {
 // map
 export interface MapProps {
 	setMap: Dispatch<SetStateAction<any>>;
+	lat?: string | null;
+	lng?: string | null;
+	zoom?: number;
 }
 
 export interface MarkerProps {

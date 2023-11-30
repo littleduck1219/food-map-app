@@ -28,7 +28,7 @@ const Map = ({ setMap, lat, lng, zoom }: MapProps) => {
 				src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKO_MAP_CLIENT}&autoload=false`}
 				onReady={loadKakaoMap}
 			/>
-			<div id='map' className='w-full h-screen'></div>
+			<div id='map' className='map_screen'></div>
 		</>
 	);
 };

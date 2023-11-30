@@ -5,6 +5,7 @@ import axios from "axios";
 import { StoreType } from "@/types/dataTypes";
 import Loader from "@/Components/Loader";
 import Map from "@/Components/Map";
+import Marker from "@/Components/Marker";
 
 const StorePage = () => {
 	const router = useRouter();
@@ -78,6 +79,7 @@ const StorePage = () => {
 			{isSuccess && (
 				<div className='overflow-hidden w-full mb-20 max-w-5xl mx-auto max-h-[600px]'>
 					<Map setMap={setMap} lat={store?.lat} lng={store?.lng} zoom={1} />
+					<Marker map={map} store={store} />
 				</div>
 			)}
 		</>

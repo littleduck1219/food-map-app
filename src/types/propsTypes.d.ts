@@ -28,8 +28,9 @@ export interface MapProps {
 
 export interface MarkerProps {
 	map: any;
-	stores: StoreType[];
-	setCurrentStore: Dispatch<SetStateAction<any>>;
+	store?: any;
+	stores?: StoreType[];
+	setCurrentStore?: Dispatch<SetStateAction<any>>;
 }
 
 // store box

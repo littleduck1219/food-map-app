@@ -34,3 +34,11 @@ export interface StoreCategories {
 	western: string;
 	default: string;
 }
+
+//prisma
+export interface ResponseType {
+	page?: string;
+	limit?: string;
+	q?: string;
+	district?: string;
+}

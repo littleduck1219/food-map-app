@@ -1,8 +1,12 @@
 import { ResponseType, StoreApiResponse, StoreType } from "@/types/dataTypes";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/db";
+import axios from "axios";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<StoreApiResponse | StoreType | StoreType[]>) => {
+const handler = async (
+    req: NextApiRequest,
+    res: NextApiResponse<StoreApiResponse | StoreType | StoreType[] | null>
+) => {
     // next api
     // const stores = (await import("../../data/seoul_store_data.json"))["DATA"] as StoreType[];
 
@@ -11,10 +15,41 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<StoreApiRespons
 
     if (req.method === "POST") {
         // 데이터 생성을 처리한다.
-        const data = req.body;
-        const result = await prisma.store.create({ data: { ...data } });
+        const formData = req.body;
+        const headers = { Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}` };
+        const { data } = await axios.get(
+            `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURI(
+                formData.address
+            )}`,
+            { headers }
+        );
+
+        const result = await prisma.store.create({
+            data: { ...formData, lat: data.documents[0].y, lng: data.documents[0].x },
+        });
 
         return res.status(200).json(result);
+    } else if (req.method === "PUT") {
+        // 데이터 수정을 처리한다.
+        const formData = req.body;
+        const headers = {
+            Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}`,
+        };
+
+        const { data } = await axios.get(
+            `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURI(
+                formData.address
+            )}`,
+            { headers }
+        );
+
+        const result = await prisma.store.update({
+            where: { id: formData.id },
+            data: { ...formData, lat: data.documents[0].y, lng: data.documents[0].x },
+        });
+
+        return res.status(200).json(result);
+        
     } else {
         // GET 요청 처리
         if (page) {

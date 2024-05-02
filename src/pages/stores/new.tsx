@@ -1,4 +1,6 @@
+import AddressSearch from "@/Components/AddressSearch";
 import { CATEGORY_ARR, FOOD_CERTIFY_ARR, STORE_TYPE_ARR } from "@/data/store";
+import { StoreType } from "@/types/dataTypes";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -9,17 +11,16 @@ const StoreNewPage = () => {
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
-    } = useForm();
+    } = useForm<StoreType>();
 
     return (
         <form
             className='px-4 md:max-w-4xl mx-auto py-8'
             onSubmit={handleSubmit(async (data) => {
-                console.log(data);
                 try {
                     const result = await axios.post("/api/stores", data);
-                    console.log(result);
 
                     if (result.status === 200) {
                         toast.success("맛집을 등록했습니다.");
@@ -28,18 +29,21 @@ const StoreNewPage = () => {
                         toast.error("다시 시도해주세요");
                     }
                 } catch (e) {
-                    console.log(e);
                     toast.error("가게등록에 실패하였습니다 다시시도 해주세요.");
                 }
             })}>
             <div className='space-y-12'>
                 <div className='border-b border-gray-900/10 pb-12'>
                     <h2 className='text-base font-semibold leading-7 text-gray-900'>맛집 등록</h2>
-                    <p className='mt-1 text-sm leading-6 text-gray-600'>내용을 입력해서 맛집을 등록해 주세요</p>
+                    <p className='mt-1 text-sm leading-6 text-gray-600'>
+                        내용을 입력해서 맛집을 등록해 주세요
+                    </p>
 
                     <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
                         <div className='sm:col-span-3'>
-                            <label htmlFor='name' className='block text-sm font-medium leading-6 text-gray-900'>
+                            <label
+                                htmlFor='name'
+                                className='block text-sm font-medium leading-6 text-gray-900'>
                                 가게명
                             </label>
                             <div className='mt-2'>
@@ -49,7 +53,9 @@ const StoreNewPage = () => {
                                     className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset px-2 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                                 />
                                 {errors?.name?.type === "required" && (
-                                    <div className='pt-2 text-xs text-red-600'>필수 입력사항 입니다.</div>
+                                    <div className='pt-2 text-xs text-red-600'>
+                                        필수 입력사항 입니다.
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -72,13 +78,17 @@ const StoreNewPage = () => {
                                     ))}
                                 </select>
                                 {errors?.category?.type === "required" && (
-                                    <div className='pt-2 text-xs text-red-600'>필수 입력사항 입니다.</div>
+                                    <div className='pt-2 text-xs text-red-600'>
+                                        필수 입력사항 입니다.
+                                    </div>
                                 )}
                             </div>
                         </div>
 
                         <div className='sm:col-span-4'>
-                            <label htmlFor='phone' className='block text-sm font-medium leading-6 text-gray-900'>
+                            <label
+                                htmlFor='phone'
+                                className='block text-sm font-medium leading-6 text-gray-900'>
                                 연락처
                             </label>
                             <div className='mt-2'>
@@ -88,29 +98,19 @@ const StoreNewPage = () => {
                                     className='block w-full rounded-md border-0 px-2 py-2 outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                                 />
                                 {errors?.phone?.type === "required" && (
-                                    <div className='pt-2 text-xs text-red-600'>필수 입력사항 입니다.</div>
+                                    <div className='pt-2 text-xs text-red-600'>
+                                        필수 입력사항 입니다.
+                                    </div>
                                 )}
                             </div>
                         </div>
 
-                        <div className='col-span-full'>
-                            <label htmlFor='address' className='block text-sm font-medium leading-6 text-gray-900'>
-                                주소
-                            </label>
-                            <div className='mt-2'>
-                                <input
-                                    type='text'
-                                    {...register("address", { required: true })}
-                                    className='block w-full rounded-md border-0 px-2 py-2 outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-                                />
-                                {errors?.address?.type === "required" && (
-                                    <div className='pt-2 text-xs text-red-600'>필수 입력사항 입니다.</div>
-                                )}
-                            </div>
-                        </div>
+                        <AddressSearch errors={errors} register={register} setValue={setValue} />
 
                         <div className='sm:col-span-2 sm:col-start-1'>
-                            <label htmlFor='city' className='block text-sm font-medium leading-6 text-gray-900'>
+                            <label
+                                htmlFor='city'
+                                className='block text-sm font-medium leading-6 text-gray-900'>
                                 식품인증구분
                             </label>
                             <div className='mt-2'>
@@ -125,13 +125,17 @@ const StoreNewPage = () => {
                                     ))}
                                 </select>
                                 {errors?.foodCertifyName?.type === "required" && (
-                                    <div className='pt-2 text-xs text-red-600'>필수 입력사항 입니다.</div>
+                                    <div className='pt-2 text-xs text-red-600'>
+                                        필수 입력사항 입니다.
+                                    </div>
                                 )}
                             </div>
                         </div>
 
                         <div className='sm:col-span-2 sm:col-start-1'>
-                            <label htmlFor='storeType' className='block text-sm font-medium leading-6 text-gray-900'>
+                            <label
+                                htmlFor='storeType'
+                                className='block text-sm font-medium leading-6 text-gray-900'>
                                 업종구분
                             </label>
                             <div className='mt-2'>
@@ -146,7 +150,9 @@ const StoreNewPage = () => {
                                     ))}
                                 </select>
                                 {errors?.storeType?.type === "required" && (
-                                    <div className='pt-2 text-xs text-red-600'>필수 입력사항 입니다.</div>
+                                    <div className='pt-2 text-xs text-red-600'>
+                                        필수 입력사항 입니다.
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -155,7 +161,10 @@ const StoreNewPage = () => {
             </div>
 
             <div className='mt-6 flex items-center justify-end gap-x-6'>
-                <button type='button' className='text-sm font-semibold leading-6 text-gray-900'>
+                <button
+                    type='button'
+                    className='text-sm font-semibold leading-6 text-gray-900'
+                    onClick={() => router.back()}>
                     뒤로가기
                 </button>
                 <button

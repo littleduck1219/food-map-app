@@ -6,10 +6,13 @@ import { StoreType } from "@/types/dataTypes";
 import Loader from "@/Components/Loader";
 import Map from "@/Components/Map";
 import Marker from "@/Components/Marker";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const StorePage = () => {
     const router = useRouter();
     const { id } = router.query;
+    const { status } = useSession();
 
     const [map, setMap] = useState();
 
@@ -42,11 +45,29 @@ const StorePage = () => {
 
     return (
         <>
-            <div className='max-w-5xl mx-auto'>
-                <div className='px-4 sm:px-0'>
-                    <h3 className='text-base font-semibold leading-7 text-gray-900'>{store?.name}</h3>
-                    <p className='mt-1 max-w-2xl text-sm leading-6 text-gray-500'>{store?.storeType}</p>
+            <div className='max-w-5xl mx-auto px-4 py-8'>
+                <div className='md:flex justify-between items-center py-4 md:py-0'>
+                    <div className='px-4 sm:px-0'>
+                        <h3 className='text-base font-semibold leading-7 text-gray-900'>
+                            {store?.name}
+                        </h3>
+                        <p className='mt-1 max-w-2xl text-sm leading-6 text-gray-500'>
+                            {store?.storeType}
+                        </p>
+                    </div>
+
+                    <div className='flex items-center gap-4'>
+                        <Link
+                            className='underline hover:text-gray-400 text-sm'
+                            href={`/stores/${store?.id}/edit`}>
+                            수정
+                        </Link>
+                        <button type='button' className='underline hover:text-gray-400 text-sm'>
+                            삭제
+                        </button>
+                    </div>
                 </div>
+
                 <div className='mt-6 border-t border-gray-100'>
                     <dl className='divide-y divide-gray-100'>
                         <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
@@ -56,19 +77,25 @@ const StorePage = () => {
                             </dd>
                         </div>
                         <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-                            <dt className='text-sm font-medium leading-6 text-gray-900'>전화번호</dt>
+                            <dt className='text-sm font-medium leading-6 text-gray-900'>
+                                전화번호
+                            </dt>
                             <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
                                 {store?.phone ? store?.phone : "제공없음"}
                             </dd>
                         </div>
                         <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-                            <dt className='text-sm font-medium leading-6 text-gray-900'>카테고리</dt>
+                            <dt className='text-sm font-medium leading-6 text-gray-900'>
+                                카테고리
+                            </dt>
                             <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
                                 {store?.category}
                             </dd>
                         </div>
                         <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-                            <dt className='text-sm font-medium leading-6 text-gray-900'>식품인증</dt>
+                            <dt className='text-sm font-medium leading-6 text-gray-900'>
+                                식품인증
+                            </dt>
                             <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
                                 {store?.foodCertifyName}
                             </dd>
